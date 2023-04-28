@@ -1,0 +1,18 @@
+name: publish
+on: [push]
+jobs:
+publish-auth-liquibase-image:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v2
+- name: Login to GitHub Container Registry
+uses: docker/login-action@v1
+with:
+registry: ghcr.io
+username: ${{ github.actor }}
+password: ${{ secrets.GITHUB_TOKEN }}
+- name: Build the auth-liquibase-docker Docker image
+run: |
+       docker build . --tag ghcr.io/kpayson/auth-liquibase:latest
+       docker run ghcr.io/kpayson/auth-liquibase:latest
+       docker push ghcr.io/kpayson/auth-liquibase:latest
