@@ -1,4 +1,4 @@
-ARG LIQUIBASE_VERSION=4.19.0
+ARG LIQUIBASE_VERSION=4.21.0
 
 FROM liquibase/liquibase:$LIQUIBASE_VERSION
 
@@ -9,12 +9,5 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ADD ./changelog /liquibase/changelog
+ADD ./liquibase.properties /liquibase/liquibase.properties
 ADD ./scripts/wait_for_db.sh /liquibase/wait_for_db.sh
-
-# CMD ["tail", "-F", "anything"]
-
-
-
-# publish image to personal github container registry
-# create a personal token to 
-# create a manifest and include token

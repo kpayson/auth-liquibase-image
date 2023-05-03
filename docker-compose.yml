@@ -1,0 +1,22 @@
+version: '2.1'
+services:
+  auth_db_local:
+    build:
+      context: ./run/mariadb
+    container_name: auth_db_local
+    restart: always
+    tty: true
+    ports:
+      - ${DB_PORT:-3306}:3306
+
+  liquibase_local:
+    build:
+      context: ./run/liquibase
+    tty: true
+    command: bash /liquibase/wait_for_db.sh liquibase --url="jdbc:mariadb://auth_db_local/labshare" --changeLogFile="./changelog/changelog.xml" --username=root --password='' update
+    # command: tail -F "anything"
+    depends_on:
+      - auth_db_local
+
+
+
